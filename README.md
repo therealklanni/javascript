@@ -1,6 +1,8 @@
-# Airbnb JavaScript Style Guide() {
+# JavaScript Style Guide() {
 
 *A mostly reasonable approach to JavaScript*
+
+This version of the style guide includes my own personal style preferences. The main differences are style asthetics.
 
 
 ## <a name='TOC'>Table of Contents</a>
@@ -657,7 +659,7 @@
 
 ## <a name='whitespace'>Whitespace</a>
 
-  - Use soft tabs set to 2 spaces
+  - Use hard tabs set to 4
 
     ```javascript
     // bad
@@ -672,7 +674,7 @@
 
     // good
     function() {
-    ∙∙var name;
+        var name; // that's 1 tab
     }
     ```
   - Place 1 space before the leading brace.
@@ -851,7 +853,7 @@
     // bad
     var val = parseInt(inputValue);
 
-    // good
+    // preferred
     var val = Number(inputValue);
 
     // good
@@ -877,7 +879,7 @@
     // good
     var hasAge = Boolean(age);
 
-    // good
+    // preferred
     var hasAge = !!age;
     ```
 
@@ -900,10 +902,10 @@
     }
     ```
 
-  - Use camelCase when naming objects, functions, and instances
+  - Use camelCase (also known as headlessCamelCase) when naming objects, functions, and instances
 
     ```javascript
-    // bad
+    // very bad
     var OBJEcttsssss = {};
     var this_is_my_object = {};
     var this-is-my-object = {};
@@ -948,12 +950,12 @@
     // bad
     this.__firstName__ = 'Panda';
     this.firstName_ = 'Panda';
-    
+
     // good
     this._firstName = 'Panda';
     ```
 
-  - Name your functions. This is helpful for stack traces.
+  - Name your functions. This is very helpful for stack traces.
 
     ```javascript
     // bad
@@ -1104,36 +1106,6 @@
     Jedi.prototype.toString = function toString() {
       return 'Jedi - ' + this.getName();
     };
-    ```
-
-    **[[⬆]](#TOC)**
-
-
-## <a name='modules'>Modules</a>
-
-  - The module should start with a `!`. This ensures that if a malformed module forgets to include a final semicolon there aren't errors in production when the scripts get concatenated.
-  - The file should be named with camelCase, live in a folder with the same name, and match the name of the single export.
-  - Add a method called noConflict() that sets the exported module to the previous version.
-  - Always declare `'use strict';` at the top of the module.
-
-    ```javascript
-    // fancyInput/fancyInput.js
-
-    !function(global) {
-      'use strict';
-
-      var previousFancyInput = global.FancyInput;
-
-      function FancyInput(options) {
-        options || (options = {});
-      }
-
-      FancyInput.noConflict = function noConflict() {
-        global.FancyInput = previousFancyInput;
-      };
-
-      global.FancyInput = FancyInput;
-    }(this);
     ```
 
     **[[⬆]](#TOC)**
