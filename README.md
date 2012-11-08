@@ -25,7 +25,6 @@ This version of the style guide includes my own personal style preferences. The 
   1. [Naming Conventions](#naming-conventions)
   1. [Accessors](#accessors)
   1. [Constructors](#constructors)
-  1. [Modules](#modules)
   1. [jQuery](#jquery)
   1. [ES5 Compatability](#es5)
   1. [Testing](#testing)
