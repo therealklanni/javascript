@@ -598,10 +598,9 @@ This version of the style guide includes my own personal style preferences. The 
     // make() returns a new element
     // based on the pased in tag name
     //
-    // @param <String> tag
-    // @return <Element> element
+    // @param {string} tag Tag to create
+    // @return {element} element New element
     function make(tag) {
-
       // ...stuff...
 
       return element;
@@ -612,11 +611,10 @@ This version of the style guide includes my own personal style preferences. The 
      * make() returns a new element
      * based on the pased in tag name
      *
-     * @param <String> tag
-     * @return <Element> element
+     * @param {string} tag Tag to create
+     * @return {element} element New element
      */
     function make(tag) {
-
       // ...stuff...
 
       return element;
@@ -701,6 +699,14 @@ This version of the style guide includes my own personal style preferences. The 
       breed: 'Bernese Mountain Dog'
     });
     ```
+  - Place 1 space after commas in a series.
+    ```javascript
+    // bad
+    var myArray = [1,2,3,4];
+
+    // good
+    var myArray = [1, 2, 3, 4];
+    ```
   - Pad multi-line logic with empty newlines
 
     ```javascript
@@ -724,6 +730,26 @@ This version of the style guide includes my own personal style preferences. The 
       }
 
       doSomething();
+    }
+    ```
+  - Place an empty newline before `return` statements.
+    ```javascript
+    // bad
+    Jedi.prototype.slash = function(target) {
+      this.target = target;
+      return this;
+    }
+
+    // good
+    Jedi.prototype.slash = function(target) {
+      this.target = target;
+
+      return this;
+    }
+
+    // acceptable
+    Jedi.prototype.getTarget = function(target) {
+      return this.target;
     }
     ```
   - Place an empty newline at the end of the file.
@@ -819,18 +845,21 @@ This version of the style guide includes my own personal style preferences. The 
     // bad
     (function() {
       var name = 'Skywalker'
+
       return name
     })()
 
     // good
     (function() {
       var name = 'Skywalker';
+
       return name;
     })();
 
     // good
     ;(function() {
       var name = 'Skywalker';
+
       return name;
     })();
     ```
@@ -1086,6 +1115,7 @@ This version of the style guide includes my own personal style preferences. The 
     // bad
     Jedi.prototype.jump = function() {
       this.jumping = true;
+
       return true;
     };
 
@@ -1100,11 +1130,13 @@ This version of the style guide includes my own personal style preferences. The 
     // good
     Jedi.prototype.jump = function() {
       this.jumping = true;
+
       return this;
     };
 
     Jedi.prototype.setHeight = function(height) {
       this.height = height;
+
       return this;
     };
 
