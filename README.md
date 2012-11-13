@@ -701,6 +701,31 @@ This version of the style guide includes my own personal style preferences. The 
       breed: 'Bernese Mountain Dog'
     });
     ```
+  - Pad multi-line logic with empty newlines
+
+    ```javascript
+    // bad
+    var myFunc = function myFunc() {
+      var myVar = [1, 2, 3],
+          i = myVar.length;
+      while (i--) {
+        // ...
+      }
+      doSomething();
+    }
+
+    // good
+    var myFunc = function myFunc() {
+      var myVar = [1, 2, 3],
+          i = myVar.length;
+
+      while (i--) {
+        // ...
+      }
+
+      doSomething();
+    }
+    ```
   - Place an empty newline at the end of the file.
 
     ```javascript
