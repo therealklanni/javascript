@@ -22,6 +22,9 @@
       // Define globals exposed by modern browsers.
       "browser": true,
 
+      // Define globals exposed by Dojo Toolkit.
+      "dojo": true,
+
       // Define globals exposed by jQuery.
       "jquery": true,
 
@@ -37,20 +40,36 @@
       // with underscores.
       "camelcase": true,
 
+      // Require curly braces around blocks in loops and conditionals.
+      "curly": true,
+
       // Prohibit the use of == and != in favor of === and !==.
       "eqeqeq": true,
 
       // Suppress warnings about == null comparisons.
       "eqnull": true,
 
+      // Prohibit the use of immediate function invocations without wrapping
+      // them in parentheses.
+      "immed": true,
+
       // Enforce a tab width of 2 spaces.
-      "indent": 2,
+      "indent": 4,
 
       // Prohibit the use of a variable before it was defined.
       "latedef": true,
 
+      // Suppress warnings about functions inside of loops.
+      "loopfunc": false,
+
       // Require capitalized names for constructor functions.
       "newcap": true,
+
+      // This option suppresses warnings about mixed tabs and spaces when the latter are used for alignmnent only.
+      "smarttabs": true,
+
+      // Disable 'use strict' message.
+      "strict": false,
 
       // Prohibit trailing whitespace.
       "trailing": true,
@@ -59,6 +78,13 @@
       "undef": true,
 
       // Warn when variables are defined but never used.
-      "unused": true
-    }
+      "unused": true,
+
+      /*
+       * RELAXING OPTIONS
+       * =================
+       */
+
+      // Suppress warnings about the use of eval.
+      "evil": false
 }
