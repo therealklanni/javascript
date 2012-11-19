@@ -699,7 +699,17 @@ This version of the style guide includes my own personal style preferences. The 
       breed: 'Bernese Mountain Dog'
     });
     ```
+  - Place 1 space inside leading and trailing braces.
+
+    ```javascript
+    // bad
+    doSomething({key: 'value'});
+
+    // good
+    doSomething({ key: 'value' });
+    ```
   - Place 1 space after commas in a series.
+
     ```javascript
     // bad
     var myArray = [1,2,3,4];
@@ -733,6 +743,7 @@ This version of the style guide includes my own personal style preferences. The 
     }
     ```
   - Place an empty newline before `return` statements.
+
     ```javascript
     // bad
     Jedi.prototype.slash = function(target) {
