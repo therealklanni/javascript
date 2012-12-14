@@ -874,6 +874,24 @@ This version of the style guide includes my own personal style preferences. The 
       return name;
     })();
     ```
+  - No hanging semicolons
+
+    ```javascript
+    // bad
+    (function() {
+      var name = 'Skywalker';
+
+      return name;
+    })()
+    ;
+
+    // good
+    (function() {
+      var name = 'Skywalker';
+
+      return name;
+    })();
+    ```
 
     **[[⬆]](#TOC)**
 
