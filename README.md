@@ -26,7 +26,7 @@ This version of the style guide includes my own personal style preferences. The 
   1. [Accessors](#accessors)
   1. [Constructors](#constructors)
   1. [jQuery](#jquery)
-  1. [ES5 Compatability](#es5)
+  1. [ES5 Compatibility](#es5)
   1. [Testing](#testing)
   1. [Performance](#performance)
   1. [Resources](#resources)
@@ -175,7 +175,7 @@ This version of the style guide includes my own personal style preferences. The 
       'fast.';
     ```
 
-  - When programatically building up a string, use Array#join instead of string concatenation. Mostly for IE: [jsPerf](http://jsperf.com/string-vs-array-concat/2).
+  - When programmatically building up a string, use Array#join instead of string concatenation. Mostly for IE: [jsPerf](http://jsperf.com/string-vs-array-concat/2).
 
     ```javascript
     var items,
@@ -260,7 +260,7 @@ This version of the style guide includes my own personal style preferences. The 
     }
     ```
 
-  - Never name a parameter `arguments`, this will take precendence over the `arguments` object that is given to every function scope.
+  - Never name a parameter `arguments`, this will take precedence over the `arguments` object that is given to every function scope.
 
     ```javascript
     // bad
@@ -518,10 +518,10 @@ This version of the style guide includes my own personal style preferences. The 
   - Conditional expressions are evaluated using coercion with the `ToBoolean` method and always follow these simple rules:
 
     + **Objects** evaluate to **true**
-    + **Undefined** evaluates to **false**
-    + **Null** evaluates to **false**
+    + `undefined` evaluates to **false**
+    + `null` evaluates to **false**
     + **Booleans** evaluate to **the value of the boolean**
-    + **Numbers** evalute to **false** if **+0, -0, or NaN**, otherwise **true**
+    + **Numbers** evaluate to **false** if **+0, -0, or NaN**, otherwise **true**
     + **Strings** evaluate to **false** if an empty string `''`, otherwise **true**
 
     ```javascript
@@ -1254,7 +1254,7 @@ This version of the style guide includes my own personal style preferences. The 
     **[[⬆]](#TOC)**
 
 
-## <a name='es5'>ECMAScript 5 Compatability</a>
+## <a name='es5'>ECMAScript 5 Compatibility</a>
 
   - Refer to [Kangax](https://twitter.com/kangax/)'s ES5 [compatibility table](http://kangax.github.com/es5-compat-table/)
 
