@@ -72,7 +72,7 @@ This version of the style guide includes my own personal style preferences. The 
     console.log(foo[0], bar[0]); // => 9, 9
     ```
 
-    **[[⬆]](#TOC)**
+    **[[TOC]](#TOC)**
 
 ## <a name='objects'>Objects</a>
 
@@ -120,7 +120,7 @@ This version of the style guide includes my own personal style preferences. The 
       type: 'alien'
     };
     ```
-    **[[⬆]](#TOC)**
+    **[[TOC]](#TOC)**
 
 ## <a name='arrays'>Arrays</a>
 
@@ -172,7 +172,7 @@ This version of the style guide includes my own personal style preferences. The 
     }
     ```
 
-    **[[⬆]](#TOC)**
+    **[[TOC]](#TOC)**
 
 
 ## <a name='strings'>Strings</a>
@@ -262,7 +262,7 @@ This version of the style guide includes my own personal style preferences. The 
     }
     ```
 
-    **[[⬆]](#TOC)**
+    **[[TOC]](#TOC)**
 
 
 ## <a name='functions'>Functions</a>
@@ -319,7 +319,7 @@ This version of the style guide includes my own personal style preferences. The 
     }
     ```
 
-    **[[⬆]](#TOC)**
+    **[[TOC]](#TOC)**
 
 
 
@@ -355,7 +355,7 @@ This version of the style guide includes my own personal style preferences. The 
     var isJedi = getProp('jedi');
     ```
 
-    **[[⬆]](#TOC)**
+    **[[TOC]](#TOC)**
 
 
 ## <a name='variables'>Variables</a>
@@ -464,7 +464,7 @@ This version of the style guide includes my own personal style preferences. The 
     }
     ```
 
-    **[[⬆]](#TOC)**
+    **[[TOC]](#TOC)**
 
 
 ## <a name='hoisting'>Hoisting</a>
@@ -525,7 +525,7 @@ This version of the style guide includes my own personal style preferences. The 
         console.log('Flying');
       };
     }
-    
+
     // the same is true when the function name
     // is the same as the variable name.
     function example() {
@@ -553,7 +553,7 @@ This version of the style guide includes my own personal style preferences. The 
 
   - For more information refer to [JavaScript Scoping & Hoisting](http://www.adequatelygood.com/2010/2/JavaScript-Scoping-and-Hoisting) by [Ben Cherry](http://www.adequatelygood.com/)
 
-    **[[⬆]](#TOC)**
+    **[[TOC]](#TOC)**
 
 
 
@@ -602,7 +602,7 @@ This version of the style guide includes my own personal style preferences. The 
 
   - For more information see [Truth Equality and JavaScript](http://javascriptweblog.wordpress.com/2011/02/07/truth-equality-and-javascript/#more-2108) by Angus Croll
 
-    **[[⬆]](#TOC)**
+    **[[TOC]](#TOC)**
 
 
 ## <a name='blocks'>Blocks</a>
@@ -631,7 +631,7 @@ This version of the style guide includes my own personal style preferences. The 
     }
     ```
 
-    **[[⬆]](#TOC)**
+    **[[TOC]](#TOC)**
 
 
 ## <a name='comments'>Comments</a>
@@ -722,7 +722,7 @@ This version of the style guide includes my own personal style preferences. The 
     }
   ```
 
-    **[[⬆]](#TOC)**
+    **[[TOC]](#TOC)**
 
 
 ## <a name='whitespace'>Whitespace</a>
@@ -888,7 +888,7 @@ This version of the style guide includes my own personal style preferences. The 
         .call(tron.led);
     ```
 
-    **[[⬆]](#TOC)**
+    **[[TOC]](#TOC)**
 
 ## <a name='commas'>Commas</a>
 
@@ -950,7 +950,7 @@ This version of the style guide includes my own personal style preferences. The 
     ];
     ```
 
-    **[[⬆]](#TOC)**
+    **[[TOC]](#TOC)**
 
 
 ## <a name='semicolons'>Semicolons</a>
@@ -998,7 +998,7 @@ This version of the style guide includes my own personal style preferences. The 
     })();
     ```
 
-    **[[⬆]](#TOC)**
+    **[[TOC]](#TOC)**
 
 
 ## <a name='type-coercion'>Type Casting & Coercion</a>
@@ -1073,7 +1073,7 @@ This version of the style guide includes my own personal style preferences. The 
     var hasAge = !!age;
     ```
 
-    **[[⬆]](#TOC)**
+    **[[TOC]](#TOC)**
 
 
 ## <a name='naming-conventions'>Naming Conventions</a>
@@ -1187,7 +1187,7 @@ This version of the style guide includes my own personal style preferences. The 
     };
     ```
 
-    **[[⬆]](#TOC)**
+    **[[TOC]](#TOC)**
 
 
 ## <a name='accessors'>Accessors</a>
@@ -1241,7 +1241,7 @@ This version of the style guide includes my own personal style preferences. The 
     };
     ```
 
-    **[[⬆]](#TOC)**
+    **[[TOC]](#TOC)**
 
 
 ## <a name='constructors'>Constructors</a>
@@ -1329,7 +1329,7 @@ This version of the style guide includes my own personal style preferences. The 
     };
     ```
 
-    **[[⬆]](#TOC)**
+    **[[TOC]](#TOC)**
 
 
 ## <a name='events'>Events</a>
@@ -1360,7 +1360,7 @@ This version of the style guide includes my own personal style preferences. The 
     });
     ```
 
-  **[[⬆]](#TOC)**
+  **[[TOC]](#TOC)**
 
 
 ## <a name='modules'>Modules</a>
@@ -1391,7 +1391,7 @@ This version of the style guide includes my own personal style preferences. The 
     }(this);
     ```
 
-    **[[⬆]](#TOC)**
+    **[[TOC]](#TOC)**
 
 
 ## <a name='jquery'>jQuery</a>
@@ -1456,14 +1456,14 @@ This version of the style guide includes my own personal style preferences. The 
     $($sidebar[0]).find('ul');
     ```
 
-    **[[⬆]](#TOC)**
+    **[[TOC]](#TOC)**
 
 
 ## <a name='es5'>ECMAScript 5 Compatibility</a>
 
   - Refer to [Kangax](https://twitter.com/kangax/)'s ES5 [compatibility table](http://kangax.github.com/es5-compat-table/)
 
-  **[[⬆]](#TOC)**
+  **[[TOC]](#TOC)**
 
 
 ## <a name='testing'>Testing</a>
@@ -1476,7 +1476,7 @@ This version of the style guide includes my own personal style preferences. The 
     }
     ```
 
-    **[[⬆]](#TOC)**
+    **[[TOC]](#TOC)**
 
 
 ## <a name='performance'>Performance</a>
@@ -1490,7 +1490,7 @@ This version of the style guide includes my own personal style preferences. The 
   - [Long String Concatenation](http://jsperf.com/ya-string-concat)
   - Loading...
 
-  **[[⬆]](#TOC)**
+  **[[TOC]](#TOC)**
 
 
 ## <a name='resources'>Resources</a>
@@ -1540,7 +1540,7 @@ This version of the style guide includes my own personal style preferences. The 
   - [Dustin Diaz](http://dustindiaz.com/)
   - [nettuts](http://net.tutsplus.com/?s=javascript)
 
-  **[[⬆]](#TOC)**
+  **[[TOC]](#TOC)**
 
 ## <a name='in-the-wild'>In the Wild</a>
 
@@ -1607,7 +1607,7 @@ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-**[[⬆]](#TOC)**
+**[[TOC]](#TOC)**
 
 # };
 
