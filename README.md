@@ -19,17 +19,22 @@ This version of the style guide includes my own personal style preferences. The 
   1. [Blocks](#blocks)
   1. [Comments](#comments)
   1. [Whitespace](#whitespace)
-  1. [Leading Commas](#leading-commas)
+  1. [Commas](#commas)
   1. [Semicolons](#semicolons)
   1. [Type Casting & Coercion](#type-coercion)
   1. [Naming Conventions](#naming-conventions)
   1. [Accessors](#accessors)
   1. [Constructors](#constructors)
+
+  1. [Events](#events)
+  1. [Modules](#modules)
   1. [jQuery](#jquery)
   1. [ES5 Compatibility](#es5)
   1. [Testing](#testing)
   1. [Performance](#performance)
   1. [Resources](#resources)
+  1. [In the Wild](#in-the-wild)
+  1. [Translation](#translation)
   1. [The JavaScript Style Guide Guide](#guide-guide)
   1. [Contributors](#contributors)
   1. [License](#license)
@@ -81,21 +86,38 @@ This version of the style guide includes my own personal style preferences. The 
     var item = {};
     ```
 
-  - Don't use [reserved words](https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Reserved_Words) as keys.
+  - Don't use [reserved words](http://es5.github.io/#x7.6.1) as keys. It won't work in IE8. [More info](https://github.com/airbnb/javascript/issues/61)
 
     ```javascript
     // bad
     var superman = {
-      class: 'superhero',
-      default: { clark: kent },
+      default: { clark: 'kent' },
       private: true
     };
 
     // good
     var superman = {
-      klass: 'superhero',
-      defaults: { clark: kent },
+      defaults: { clark: 'kent' },
       hidden: true
+    };
+    ```
+
+  - Use readable synonyms in place of reserved words.
+
+    ```javascript
+    // bad
+    var superman = {
+      class: 'alien'
+    };
+
+    // bad
+    var superman = {
+      klass: 'alien'
+    };
+
+    // good
+    var superman = {
+      type: 'alien'
     };
     ```
     **[[⬆]](#TOC)**
@@ -112,7 +134,20 @@ This version of the style guide includes my own personal style preferences. The 
     var items = [];
     ```
 
-  - For [performance reasons](http://jsperf.com/array-direct-assignment-vs-push/5) use direct assignment over Array#push
+  - If you don't know array length use Array#push.
+
+    ```javascript
+    var someStack = [];
+
+
+    // bad
+    someStack[someStack.length] = 'abracadabra';
+
+    // good
+    someStack.push('abracadabra');
+    ```
+
+  - When you need to copy an array use Array#slice. [jsPerf](http://jsperf.com/converting-arguments-to-an-array/7)
 
     ```javascript
     var len = items.length,
@@ -121,12 +156,19 @@ This version of the style guide includes my own personal style preferences. The 
 
     // bad
     for (i = 0; i < len; i++) {
-      itemsCopy.push(items[i])
+      itemsCopy[i] = items[i];
     }
 
     // good
-    for (i = 0; i < len; i++) {
-      itemsCopy[i] = items[i];
+    itemsCopy = items.slice();
+    ```
+
+  - To convert an array-like object to an array, use Array#slice.
+
+    ```javascript
+    function trigger() {
+      var args = Array.prototype.slice.call(arguments);
+      ...
     }
     ```
 
@@ -145,13 +187,14 @@ This version of the style guide includes my own personal style preferences. The 
     var name = 'Bob Parr';
 
     // bad
-    var fullName = "Bob" + this.lastName;
+    var fullName = "Bob " + this.lastName;
 
     // good
-    var fullName = 'Bob' + this.lastName;
+    var fullName = 'Bob ' + this.lastName;
     ```
 
   - Strings longer than 80 characters should be written across multiple lines using string concatenation.
+  - Note: If overused, long strings with concatenation could impact performance. [jsPerf](http://jsperf.com/ya-string-concat) & [Discussion](https://github.com/airbnb/javascript/issues/40)
 
     ```javascript
     // bad
@@ -180,7 +223,8 @@ This version of the style guide includes my own personal style preferences. The 
     ```javascript
     var items,
         messages,
-        length, i;
+        length,
+        i;
 
     messages = [{
         state: 'success',
@@ -211,10 +255,10 @@ This version of the style guide includes my own personal style preferences. The 
       items = [];
 
       for (i = 0; i < length; i++) {
-        items[i] = '<li>' + messages[i].message + '</li>';
+        items[i] = messages[i].message;
       }
 
-      return '<ul>' + items.join('') + '</ul>';
+      return '<ul><li>' + items.join('</li><li>') + '</li></ul>';
     }
     ```
 
@@ -243,6 +287,7 @@ This version of the style guide includes my own personal style preferences. The 
     ```
 
   - Never declare a function in a non-function block (if, while, etc). Assign the function to a variable instead. Browsers will allow you to do it, but they all interpret it differently, which is bad news bears.
+  - **Note:** ECMA-262 defines a `block` as a list of statements. A function declaration is not a statement. [Read ECMA-262's note on this issue](http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-262.pdf#page=97).
 
     ```javascript
     // bad
@@ -357,7 +402,8 @@ This version of the style guide includes my own personal style preferences. The 
     var items = getItems(),
         goSportsTeam = true,
         dragonball,
-        i, length;
+        length,
+        i;
     ```
 
   - Assign variables at the top of their scope. This helps avoid issues with variable declaration and assignment hoisting related issues.
@@ -441,7 +487,7 @@ This version of the style guide includes my own personal style preferences. The 
       var declaredButNotAssigned = true;
     }
 
-    // The interpretor is hoisting the variable
+    // The interpreter is hoisting the variable
     // declaration to the top of the scope.
     // Which means our example could be rewritten as:
     function example() {
@@ -451,7 +497,7 @@ This version of the style guide includes my own personal style preferences. The 
     }
     ```
 
-  - Anonymous function expression hoist their variable name, but not the function assignment.
+  - Anonymous function expressions hoist their variable name, but not the function assignment.
 
     ```javascript
     function example() {
@@ -478,18 +524,17 @@ This version of the style guide includes my own personal style preferences. The 
       var named = function superPower() {
         console.log('Flying');
       };
+    }
+    
+    // the same is true when the function name
+    // is the same as the variable name.
+    function example() {
+      console.log(named); // => undefined
 
+      named(); // => TypeError named is not a function
 
-      // the same is true when the function name
-      // is the same as the variable name.
-      function example() {
-        console.log(named); // => undefined
-
-        named(); // => TypeError named is not a function
-
-        var named = function named() {
-          console.log('named');
-        };
+      var named = function named() {
+        console.log('named');
       }
     }
     ```
@@ -596,7 +641,7 @@ This version of the style guide includes my own personal style preferences. The 
     ```javascript
     // bad
     // make() returns a new element
-    // based on the pased in tag name
+    // based on the passed in tag name
     //
     // @param {string} tag Tag to create
     // @return {element} element New element
@@ -609,7 +654,7 @@ This version of the style guide includes my own personal style preferences. The 
     // good
     /**
      * make() returns a new element
-     * based on the pased in tag name
+     * based on the passed in tag name
      *
      * @param {string} tag Tag to create
      * @return {element} element New element
@@ -621,7 +666,7 @@ This version of the style guide includes my own personal style preferences. The 
     }
     ```
 
-  - Use `//` for single line comments. Place single line comments on a newline above the subject of the comment. Put an emptyline before the comment.
+  - Use `//` for single line comments. Place single line comments on a newline above the subject of the comment. Put an empty line before the comment.
 
     ```javascript
     // bad
@@ -651,12 +696,38 @@ This version of the style guide includes my own personal style preferences. The 
     }
     ```
 
+  - Prefixing your comments with `FIXME` or `TODO` helps other developers quickly understand if you're pointing out a problem that needs to be revisited, or if you're suggesting a solution to the problem that needs to be implemented. These are different than regular comments because they are actionable. The actions are `FIXME -- need to figure this out` or `TODO -- need to implement`.
+
+  - Use `// FIXME:` to annotate problems
+
+    ```javascript
+    function Calculator() {
+
+      // FIXME: shouldn't use a global here
+      total = 0;
+
+      return this;
+    }
+    ```
+
+  - Use `// TODO:` to annotate solutions to problems
+
+    ```javascript
+    function Calculator() {
+
+      // TODO: total should be configurable by an options param
+      this.total = 0;
+
+      return this;
+    }
+  ```
+
     **[[⬆]](#TOC)**
 
 
 ## <a name='whitespace'>Whitespace</a>
 
-  - Use hard tabs set to 4
+  - Use soft tabs set to 2 spaces
 
     ```javascript
     // bad
@@ -666,14 +737,15 @@ This version of the style guide includes my own personal style preferences. The 
 
     // bad
     function() {
-    ∙ var name;
+    ∙var name;
     }
 
     // good
     function() {
-        var name; // that's 1 tab
+    ∙∙var name;
     }
     ```
+
   - Place 1 space before the leading brace.
 
     ```javascript
@@ -699,6 +771,7 @@ This version of the style guide includes my own personal style preferences. The 
       breed: 'Bernese Mountain Dog'
     });
     ```
+
   - Place 1 space inside leading and trailing braces.
 
     ```javascript
@@ -708,6 +781,7 @@ This version of the style guide includes my own personal style preferences. The 
     // good
     doSomething({ key: 'value' });
     ```
+
   - Place 1 space after commas in a series.
 
     ```javascript
@@ -717,6 +791,7 @@ This version of the style guide includes my own personal style preferences. The 
     // good
     var myArray = [1, 2, 3, 4];
     ```
+
   - Pad multi-line logic with empty newlines
 
     ```javascript
@@ -742,6 +817,7 @@ This version of the style guide includes my own personal style preferences. The 
       doSomething();
     }
     ```
+
   - Place an empty newline before `return` statements.
 
     ```javascript
@@ -763,6 +839,7 @@ This version of the style guide includes my own personal style preferences. The 
       return this.target;
     }
     ```
+
   - Place an empty newline at the end of the file.
 
     ```javascript
@@ -780,42 +857,42 @@ This version of the style guide includes my own personal style preferences. The 
 
     ```
 
-    **[[⬆]](#TOC)**
-
   - Use indentation when making long method chains.
 
-  ```javascript
-  // bad
-  $('#items').find('.selected').highlight().end().find('.open').updateCount();
+    ```javascript
+    // bad
+    $('#items').find('.selected').highlight().end().find('.open').updateCount();
 
-  // good
-  $('#items')
-    .find('.selected')
-      .highlight()
-      .end()
-    .find('.open')
-      .updateCount();
+    // good
+    $('#items')
+      .find('.selected')
+        .highlight()
+        .end()
+      .find('.open')
+        .updateCount();
 
-  // bad
-  var leds = stage.selectAll('.led').data(data).enter().append("svg:svg").class('led', true)
-      .attr('width',  (radius + margin) * 2).append("svg:g")
-      .attr("transform", "translate(" + (radius + margin) + "," + (radius + margin) + ")")
-      .call(tron.led);
+    // bad
+    var leds = stage.selectAll('.led').data(data).enter().append('svg:svg').class('led', true)
+        .attr('width',  (radius + margin) * 2).append('svg:g')
+        .attr('transform', 'translate(' + (radius + margin) + ',' + (radius + margin) + ')')
+        .call(tron.led);
 
-  // good
-  var leds = stage.selectAll('.led')
-      .data(data)
-    .enter().append("svg:svg")
-      .class('led', true)
-      .attr('width',  (radius + margin) * 2)
-    .append("svg:g")
-      .attr("transform", "translate(" + (radius + margin) + "," + (radius + margin) + ")")
-      .call(tron.led);
-  ```
+    // good
+    var leds = stage.selectAll('.led')
+        .data(data)
+      .enter().append('svg:svg')
+        .class('led', true)
+        .attr('width',  (radius + margin) * 2)
+      .append('svg:g')
+        .attr('transform', 'translate(' + (radius + margin) + ',' + (radius + margin) + ')')
+        .call(tron.led);
+    ```
 
-## <a name='leading-commas'>Leading Commas</a>
+    **[[⬆]](#TOC)**
 
-  - **Nope.**
+## <a name='commas'>Commas</a>
+
+  - Leading commas: **Nope.**
 
     ```javascript
     // bad
@@ -843,6 +920,34 @@ This version of the style guide includes my own personal style preferences. The 
       heroName: 'Mr. Incredible',
       superPower: 'strength'
     };
+    ```
+
+  - Additional trailing comma: **Nope.** This can cause problems with IE6/7 and IE9 if it's in quirksmode. Also, in some implementations of ES3 would add length to an array if it had an additional trailing comma. This was clarified in ES5 ([source](http://es5.github.io/#D)):
+
+  > Edition 5 clarifies the fact that a trailing comma at the end of an ArrayInitialiser does not add to the length of the array. This is not a semantic change from Edition 3 but some implementations may have previously misinterpreted this.
+
+    ```javascript
+    // bad
+    var hero = {
+      firstName: 'Kevin',
+      lastName: 'Flynn',
+    };
+
+    var heroes = [
+      'Batman',
+      'Superman',
+    ];
+
+    // good
+    var hero = {
+      firstName: 'Kevin',
+      lastName: 'Flynn'
+    };
+
+    var heroes = [
+      'Batman',
+      'Superman'
+    ];
     ```
 
     **[[⬆]](#TOC)**
@@ -918,7 +1023,6 @@ This version of the style guide includes my own personal style preferences. The 
     ```
 
   - Use `parseInt` for Numbers and always with a radix for type casting.
-  - If for whatever reason you are doing something wild and `parseInt` is your bottleneck and need to use Bitshift for [performance reasons](http://jsperf.com/coercion-vs-casting/3), leave a comment explaining why and what you're doing.
 
     ```javascript
     var inputValue = '4';
@@ -935,12 +1039,16 @@ This version of the style guide includes my own personal style preferences. The 
     // bad
     var val = parseInt(inputValue);
 
-    // preferred
+    // good
     var val = Number(inputValue);
 
     // good
     var val = parseInt(inputValue, 10);
+    ```
 
+  - If for whatever reason you are doing something wild and `parseInt` is your bottleneck and need to use Bitshift for [performance reasons](http://jsperf.com/coercion-vs-casting/3), leave a comment explaining why and what you're doing.
+
+    ```javascript
     // good
     /**
      * parseInt was the reason my code was slow.
@@ -961,7 +1069,7 @@ This version of the style guide includes my own personal style preferences. The 
     // good
     var hasAge = Boolean(age);
 
-    // preferred
+    // good
     var hasAge = !!age;
     ```
 
@@ -984,10 +1092,10 @@ This version of the style guide includes my own personal style preferences. The 
     }
     ```
 
-  - Use camelCase (also known as headlessCamelCase) when naming objects, functions, and instances
+  - Use camelCase when naming objects, functions, and instances
 
     ```javascript
-    // very bad
+    // bad
     var OBJEcttsssss = {};
     var this_is_my_object = {};
     var this-is-my-object = {};
@@ -1037,7 +1145,35 @@ This version of the style guide includes my own personal style preferences. The 
     this._firstName = 'Panda';
     ```
 
-  - Name your functions. This is very helpful for stack traces.
+  - When saving a reference to `this` use `_this`.
+
+    ```javascript
+    // bad
+    function() {
+      var self = this;
+      return function() {
+        console.log(self);
+      };
+    }
+
+    // bad
+    function() {
+      var that = this;
+      return function() {
+        console.log(that);
+      };
+    }
+
+    // good
+    function() {
+      var _this = this;
+      return function() {
+        console.log(_this);
+      };
+    }
+    ```
+
+  - Name your functions. This is helpful for stack traces.
 
     ```javascript
     // bad
@@ -1138,7 +1274,7 @@ This version of the style guide includes my own personal style preferences. The 
     };
     ```
 
-  - Constructor methods should try to return `this`. This helps with method chaining which is often useful.
+  - Methods can return `this` to help with method chaining.
 
     ```javascript
     // bad
@@ -1196,6 +1332,68 @@ This version of the style guide includes my own personal style preferences. The 
     **[[⬆]](#TOC)**
 
 
+## <a name='events'>Events</a>
+
+  - When attaching data payloads to events (whether DOM events or something more proprietary like Backbone events), pass a hash instead of a raw value. This allows a subsequent contributor to add more data to the event payload without finding and updating every handler for the event. For example, instead of:
+
+    ```js
+    // bad
+    $(this).trigger('listingUpdated', listing.id);
+
+    ...
+
+    $(this).on('listingUpdated', function(e, listingId) {
+      // do something with listingId
+    });
+    ```
+
+    prefer:
+
+    ```js
+    // good
+    $(this).trigger('listingUpdated', { listingId : listing.id });
+
+    ...
+
+    $(this).on('listingUpdated', function(e, data) {
+      // do something with data.listingId
+    });
+    ```
+
+  **[[⬆]](#TOC)**
+
+
+## <a name='modules'>Modules</a>
+
+  - The module should start with a `!`. This ensures that if a malformed module forgets to include a final semicolon there aren't errors in production when the scripts get concatenated. [Explanation](https://github.com/airbnb/javascript/issues/44#issuecomment-13063933)
+  - The file should be named with camelCase, live in a folder with the same name, and match the name of the single export.
+  - Add a method called noConflict() that sets the exported module to the previous version and returns this one.
+  - Always declare `'use strict';` at the top of the module.
+
+    ```javascript
+    // fancyInput/fancyInput.js
+
+    !function(global) {
+      'use strict';
+
+      var previousFancyInput = global.FancyInput;
+
+      function FancyInput(options) {
+        this.options = options || {};
+      }
+
+      FancyInput.noConflict = function noConflict() {
+        global.FancyInput = previousFancyInput;
+        return FancyInput;
+      };
+
+      global.FancyInput = FancyInput;
+    }(this);
+    ```
+
+    **[[⬆]](#TOC)**
+
+
 ## <a name='jquery'>jQuery</a>
 
   - Prefix jQuery object variables with a `$`.
@@ -1235,20 +1433,27 @@ This version of the style guide includes my own personal style preferences. The 
     }
     ```
 
-  - Scope jQuery object queries with find. [jsPerf](http://jsperf.com/jquery-find-vs-context-sel/13)
+  - For DOM queries use Cascading `$('.sidebar ul')` or parent > child `$('.sidebar > ul')`. [jsPerf](http://jsperf.com/jquery-find-vs-context-sel/16)
+  - Use `find` with scoped jQuery object queries.
 
     ```javascript
     // bad
-    $('.sidebar ul').hide();
-
-    // bad
-    $('.sidebar > ul').hide();
-
-    // bad
     $('.sidebar', 'ul').hide();
 
-    // good
+    // bad
     $('.sidebar').find('ul').hide();
+
+    // good
+    $('.sidebar ul').hide();
+
+    // good
+    $('.sidebar > ul').hide();
+
+    // good (slower)
+    $sidebar.find('ul');
+
+    // good (faster)
+    $($sidebar[0]).find('ul');
     ```
 
     **[[⬆]](#TOC)**
@@ -1276,10 +1481,13 @@ This version of the style guide includes my own personal style preferences. The 
 
 ## <a name='performance'>Performance</a>
 
+  - [On Layout & Web Performance](http://kellegous.com/j/2013/01/26/layout-performance/)
   - [String vs Array Concat](http://jsperf.com/string-vs-array-concat/2)
   - [Try/Catch Cost In a Loop](http://jsperf.com/try-catch-in-loop-cost)
   - [Bang Function](http://jsperf.com/bang-function)
   - [jQuery Find vs Context, Selector](http://jsperf.com/jquery-find-vs-context-sel/13)
+  - [innerHTML vs textContent for script text](http://jsperf.com/innerhtml-vs-textcontent-for-script-text)
+  - [Long String Concatenation](http://jsperf.com/ya-string-concat)
   - Loading...
 
   **[[⬆]](#TOC)**
@@ -1298,6 +1506,15 @@ This version of the style guide includes my own personal style preferences. The 
   - [jQuery Core Style Guidelines](http://docs.jquery.com/JQuery_Core_Style_Guidelines)
   - [Principles of Writing Consistent, Idiomatic JavaScript](https://github.com/rwldrn/idiomatic.js/)
 
+**Other Styles**
+
+  - [Naming this in nested functions](https://gist.github.com/4135065) - Christian Johansen
+  - [Conditional Callbacks](https://github.com/airbnb/javascript/issues/52)
+
+**Further Reading**
+
+  - [Understanding JavaScript Closures](http://javascriptweblog.wordpress.com/2010/10/25/understanding-javascript-closures/) - Angus Croll
+
 **Books**
 
   - [JavaScript: The Good Parts](http://www.amazon.com/JavaScript-Good-Parts-Douglas-Crockford/dp/0596517742) - Douglas Crockford
@@ -1311,7 +1528,7 @@ This version of the style guide includes my own personal style preferences. The 
 
 **Blogs**
 
-  - [DailyJS](//dailyjs.com)
+  - [DailyJS](http://dailyjs.com/)
   - [JavaScript Weekly](http://javascriptweekly.com/)
   - [JavaScript, JavaScript...](http://javascriptweblog.wordpress.com/)
   - [Bocoup Weblog](http://weblog.bocoup.com/)
@@ -1321,13 +1538,44 @@ This version of the style guide includes my own personal style preferences. The 
   - [Ben Alman](http://benalman.com/)
   - [Dmitry Baranovskiy](http://dmitry.baranovskiy.com/)
   - [Dustin Diaz](http://dustindiaz.com/)
-  - [net.tutsplus](http://net.tutsplus.com/?s=javascript)
+  - [nettuts](http://net.tutsplus.com/?s=javascript)
 
   **[[⬆]](#TOC)**
 
+## <a name='in-the-wild'>In the Wild</a>
+
+  This is a list of organizations that are using this style guide. Send us a pull request or open an issue and we'll add you to the list.
+
+  - **Airbnb**: [airbnb/javascript](https://github.com/airbnb/javascript)
+  - **American Insitutes for Research**: [AIRAST/javascript](https://github.com/AIRAST/javascript)
+  - **Compass Learning**: [compasslearning/javascript-style-guide](https://github.com/compasslearning/javascript-style-guide)
+  - **ExactTarget**: [ExactTarget/javascript](https://github.com/ExactTarget/javascript)
+  - **GeneralElectric**: [GeneralElectric/javascript](https://github.com/GeneralElectric/javascript)
+  - **GoodData**: [gooddata/gdc-js-style](https://github.com/gooddata/gdc-js-style)
+  - **Grooveshark**: [grooveshark/javascript](https://github.com/grooveshark/javascript)
+  - **How About We**: [howaboutwe/javascript](https://github.com/howaboutwe/javascript)
+  - **MinnPost**: [MinnPost/javascript](https://github.com/MinnPost/javascript)
+  - **ModCloth**: [modcloth/javascript](https://github.com/modcloth/javascript)
+  - **National Geographic**: [natgeo/javascript](https://github.com/natgeo/javascript)
+  - **National Park Service**: [nationalparkservice/javascript](https://github.com/nationalparkservice/javascript)
+  - **Razorfish**: [razorfish/javascript-style-guide](https://github.com/razorfish/javascript-style-guide)
+  - **Shutterfly**: [shutterfly/javascript](https://github.com/shutterfly/javascript)
+  - **Userify**: [userify/javascript](https://github.com/userify/javascript)
+  - **Zillow**: [zillow/javascript](https://github.com/zillow/javascript)
+  - **ZocDoc**: [ZocDoc/javascript](https://github.com/ZocDoc/javascript)
+
+## <a name='translation'>Translation</a>
+
+  This style guide is also available in other languages:
+
+  - :de: **German**: [timofurrer/javascript-style-guide](https://github.com/timofurrer/javascript-style-guide)
+  - :jp: **Japanese**: [mitsuruog/javacript-style-guide](https://github.com/mitsuruog/javacript-style-guide)
+  - :br: **Portuguese**: [armoucar/javascript-style-guide](https://github.com/armoucar/javascript-style-guide)
+  - :cn: **Chinese**: [adamlu/javascript-style-guide](https://github.com/adamlu/javascript-style-guide)
+
 ## <a name='guide-guide'>The JavaScript Style Guide Guide</a>
 
-  - [Reference](//github.com/airbnb/javascript/wiki/The-JavaScript-Style-Guide-Guide)
+  - [Reference](https://github.com/airbnb/javascript/wiki/The-JavaScript-Style-Guide-Guide)
 
 ## <a name='authors'>Contributors</a>
 
